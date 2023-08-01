@@ -10,6 +10,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 load_dotenv()
 telegram_token = os.getenv('TELEGRAM_BOT_TOKEN')
 telegram_user_id = os.getenv('TELEGRAM_USER_ID')
+project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -27,7 +28,7 @@ def echo(update: Update, context: CallbackContext):
 
 
 def answer(update: Update, context: CallbackContext):
-    answer_texts = detect_intent_texts('mulch-uqka', telegram_user_id, (update.message.text, ), 'ru-RU')
+    answer_texts = detect_intent_texts(project_id, telegram_user_id, (update.message.text, ), 'ru')
     if answer_texts[0]:
         answer_texts = [x.encode('utf-8').decode() for x in answer_texts]
         update.message.reply_text(''.join(answer_texts))

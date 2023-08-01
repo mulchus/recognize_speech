@@ -49,7 +49,7 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
     session_client = dialogflow.SessionsClient()
 
     session = session_client.session_path(project_id, session_id)
-    print("Session path: {}\n".format(session))
+    # print("Session path: {}\n".format(session))
     query_result = []
     for text in texts:
         text_input = dialogflow.TextInput(text=text, language_code=language_code)
@@ -60,15 +60,15 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
             request={"session": session, "query_input": query_input}
         )
 
-        print("=" * 20)
-        print("Query text: {}".format(response.query_result.query_text))
-        print(
-            "Detected intent: {} (confidence: {})\n".format(
-                response.query_result.intent.display_name,
-                response.query_result.intent_detection_confidence,
-            )
-        )
-        print("Fulfillment text: {}\n".format(response.query_result.fulfillment_text))
+        # print("=" * 20)
+        # print("Query text: {}".format(response.query_result.query_text))
+        # print(
+        #     "Detected intent: {} (confidence: {})\n".format(
+        #         response.query_result.intent.display_name,
+        #         response.query_result.intent_detection_confidence,
+        #     )
+        # )
+        # print("Fulfillment text: {}\n".format(response.query_result.fulfillment_text))
         query_result.append(response.query_result.fulfillment_text)
     return query_result
 

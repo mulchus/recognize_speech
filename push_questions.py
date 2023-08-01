@@ -1,12 +1,12 @@
 import json
 from google.cloud import dialogflow
+from google.api_core.exceptions import InvalidArgument
+from main import project_id
 
 
 def create_intent(project_id, display_name, training_phrases_parts, message_texts):
     """Create an intent of the given intent type."""
-
     intents_client = dialogflow.IntentsClient()
-
     parent = dialogflow.AgentsClient.agent_path(project_id)
     training_phrases = []
     for training_phrases_part in training_phrases_parts:
@@ -23,7 +23,7 @@ def create_intent(project_id, display_name, training_phrases_parts, message_text
     )
 
     response = intents_client.create_intent(
-        request={"parent": parent, "intent": intent}
+        request={"parent": parent, "intent": intent, "language_code": "ru", }
     )
 
     print("Intent created: {}".format(response))
@@ -36,9 +36,11 @@ def get_questions_from_file():
 
 
 questions = get_questions_from_file()
-print(questions.values())
 for question in questions.values():
-    print(question)
-    create_intent('mulch-uqka', question['questions'][0], question['questions'], question['answer'])
-
+    if len(question['answer']) > 300:
+        question['answer'] = question['answer'][0:300]
+    try:
+        create_intent(project_id, question['questions'][0], question['questions'], [question['answer']])
+    except InvalidArgument:
+        pass
 
