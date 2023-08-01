@@ -1,5 +1,7 @@
+import os
 from google.cloud import api_keys_v2
 from google.cloud.api_keys_v2 import Key
+from dotenv import load_dotenv
 
 
 def create_api_key(project_id: str, suffix: str) -> Key:
@@ -48,7 +50,7 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
 
     session = session_client.session_path(project_id, session_id)
     print("Session path: {}\n".format(session))
-
+    query_result = []
     for text in texts:
         text_input = dialogflow.TextInput(text=text, language_code=language_code)
 
@@ -67,11 +69,15 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
             )
         )
         print("Fulfillment text: {}\n".format(response.query_result.fulfillment_text))
+        query_result.append(response.query_result.fulfillment_text)
+    return query_result
 
 
 def main():
-    create_api_key('mulch-uqka', '')
-    # detect_intent_texts('mulch-uqka', '123', 'привет', 'ru-RU')
+    load_dotenv()
+    telegram_user_id = os.getenv('TELEGRAM_USER_ID')
+    # create_api_key('mulch-uqka', '')
+    # detect_intent_texts('mulch-uqka', telegram_user_id, ('привет', 'берегите попугая'), 'ru-RU')
 
 
 if __name__ == '__main__':
