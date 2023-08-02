@@ -6,6 +6,7 @@
 Чтобы их определить, создайте файл `.env` в корневой папке `recognize_speech` и запишите туда данные в таком формате: `ПЕРЕМЕННАЯ=значение`:    
 - `TELEGRAM_BOT_TOKEN` - [Инструкция, как создать бота.](https://core.telegram.org/bots/features#botfather)  
 - `TELEGRAM_USER_ID` - Ваш telegram-ID. Узнать ID можно, например, у этого [бота](https://t.me/username_to_id_bot)   
+- `VK_USER_ID` - Ваш VK-ID. [Узнать ID](https://vk.com/faq18062)  
 - `VK_TOKEN`- Инструкция по Implicit Flow для получения [ключа доступа пользователя ВК](https://vk.com/dev/implicit_flow_user)  
 - `GOOGLE_CLOUD_PROJECT` - ID проекта в Google Cloud (Project ID), привязанноо к DialogFlow [Инструкция, как создать.](https://cloud.google.com/dialogflow/es/docs/quick/setup)    
     [Еще туториал](https://developers.google.com/assistant/df-asdk/dialogflow/project-agent?skip_cache=true%22%22&hl=ru)   
