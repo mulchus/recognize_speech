@@ -50,7 +50,8 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
 
     session = session_client.session_path(project_id, session_id)
     # print("Session path: {}\n".format(session))
-    query_result = []
+    intent_texts = []
+    is_fallback = None
     for text in texts:
         text_input = dialogflow.TextInput(text=text, language_code=language_code)
 
@@ -69,13 +70,14 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
         #     )
         # )
         # print("Fulfillment text: {}\n".format(response.query_result.fulfillment_text))
-        query_result.append(response.query_result.fulfillment_text)
-    return query_result
+        intent_texts.append(response.query_result.fulfillment_text)
+        is_fallback = response.query_result.intent.is_fallback
+    return intent_texts, is_fallback
 
 
 def main():
     load_dotenv()
-    telegram_user_id = os.getenv('TELEGRAM_USER_ID')
+    # telegram_user_id = os.getenv('TELEGRAM_USER_ID')
     # create_api_key('mulch-uqka', '')
     # detect_intent_texts('mulch-uqka', telegram_user_id, ('привет', 'берегите попугая'), 'ru-RU')
 

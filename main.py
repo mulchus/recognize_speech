@@ -29,10 +29,10 @@ def echo(update: Update, context: CallbackContext):
 
 
 def answer(update: Update, context: CallbackContext):
-    answer_texts = detect_intent_texts(project_id, telegram_user_id, (update.message.text, ), 'ru')
-    if answer_texts[0]:
-        answer_texts = [x.encode('utf-8').decode() for x in answer_texts]
-        update.message.reply_text(''.join(answer_texts))
+    intent_texts, is_fallback = detect_intent_texts(project_id, telegram_user_id, (update.message.text, ), 'ru')
+    if not is_fallback:
+        intent_texts = [x.encode('utf-8').decode() for x in intent_texts]
+        update.message.reply_text(''.join(intent_texts))
 
 
 def main():

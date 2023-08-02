@@ -15,12 +15,12 @@ def echo(event, vk_api):
 
 
 def answer(event, vk_api):
-    answer_texts = detect_intent_texts(project_id, event.user_id, (event.text, ), 'ru')
-    if answer_texts[0]:
-        answer_texts = [x.encode('utf-8').decode() for x in answer_texts]
+    intent_texts, is_fallback = detect_intent_texts(project_id, event.user_id, (event.text, ), 'ru')
+    if not is_fallback:
+        intent_texts = [x.encode('utf-8').decode() for x in intent_texts]
         vk_api.messages.send(
             user_id=event.user_id,
-            message=''.join(answer_texts),
+            message=''.join(intent_texts),
             random_id=random.randint(1, 1000)
         )
 
