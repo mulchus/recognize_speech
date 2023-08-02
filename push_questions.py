@@ -35,12 +35,11 @@ def get_questions_from_file():
     return questions
 
 
-questions = get_questions_from_file()
-for question in questions.values():
-    if len(question['answer']) > 300:
-        question['answer'] = question['answer'][0:300]
+questions_array = get_questions_from_file()
+for question_subject, questions in questions_array.items():
+    if len(questions['answer']) > 300:
+        questions['answer'] = questions['answer'][0:300]
     try:
-        create_intent(project_id, question['questions'][0], question['questions'], [question['answer']])
+        create_intent(project_id, question_subject, questions['questions'], [questions['answer']])
     except InvalidArgument:
         pass
-
