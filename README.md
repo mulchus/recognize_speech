@@ -47,10 +47,10 @@
 - Запуск бота в Telegram - `python tg.py`  
 - Запуск бота в VK - `python vk.py` (в отдельном окне командной строки)
 
-  Результат общения с ботом в Telegram:  
+  Результат общения с [ботом в Telegram](https://t.me/mulchusbot)  
   ![tg](https://github.com/mulchus/recognize_speech/assets/111083714/4dd30098-b266-42a0-9db2-79eb08250066)
   
-  Результат общения с ботом в VK:  
+  Результат общения с [ботом в VK](https://vk.com/club219033181)  
   ![vk](https://github.com/mulchus/recognize_speech/assets/111083714/58b30366-44e9-421f-85a6-43ba0057ed22)
   
 Общайтесь с ботами и наслаждайтесь реакцией. 
