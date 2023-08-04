@@ -1,5 +1,8 @@
 import os
 import json
+import argparse
+
+from dotenv import load_dotenv
 from google.cloud import dialogflow
 from google.api_core.exceptions import InvalidArgument
 
@@ -27,15 +30,25 @@ def create_intent(project_id, display_name, training_phrases_parts, message_text
     print("Intent created: {}".format(response))
 
 
-def get_questions_from_file():
-    with open('questions.json', "r", encoding="UTF-8") as my_file:
+def get_questions_from_file(file_name):
+    with open(file_name, "r", encoding="UTF-8") as my_file:
         questions = json.loads(my_file.read())
     return questions
 
 
 def main():
+    load_dotenv()
+    parser = argparse.ArgumentParser(
+        description='Скрипт звгрузки в DialogFlow ожидаемых от пользователя вопросов и ответы на них'
+    )
+    parser.add_argument(
+        'file_name',
+        nargs='?',
+        default='questions.json',
+        help='Имя файла .json с вопросами и ответами'
+    )
     project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
-    questions_array = get_questions_from_file()
+    questions_array = get_questions_from_file(parser.parse_args().file_name)
     for question_subject, questions in questions_array.items():
         if len(questions['answer']) > 300:
             questions['answer'] = questions['answer'][0:300]
