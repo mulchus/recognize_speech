@@ -31,8 +31,8 @@ def create_intent(project_id, display_name, training_phrases_parts, message_text
 
 
 def get_questions_from_file(file_name):
-    with open(file_name, "r", encoding="UTF-8") as my_file:
-        questions = json.loads(my_file.read())
+    with open(file_name, "r", encoding="UTF-8") as questions_file:
+        questions = json.loads(questions_file.read())
     return questions
 
 
