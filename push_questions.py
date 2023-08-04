@@ -5,6 +5,7 @@ import argparse
 from dotenv import load_dotenv
 from google.cloud import dialogflow
 from google.api_core.exceptions import InvalidArgument
+from contextlib import suppress
 
 
 def create_intent(project_id, display_name, training_phrases_parts, message_texts):
@@ -52,10 +53,8 @@ def main():
     for question_subject, questions in questions_array.items():
         if len(questions['answer']) > 300:
             questions['answer'] = questions['answer'][0:300]
-        try:
+        with suppress(InvalidArgument):
             create_intent(project_id, question_subject, questions['questions'], [questions['answer']])
-        except InvalidArgument:
-            pass
 
 
 if __name__ == '__main__':
