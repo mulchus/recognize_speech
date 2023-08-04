@@ -9,30 +9,14 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 from urllib.error import HTTPError
 
 
-def check_vk_request_error(response):
-    error_code = 0
-    if 'error' in str(response):
-        error_message = response['error']['error_msg']
-        if response['error']['error_code']:
-            error_code = response['error']['error_code']
-        raise HTTPError(
-            'https://dev.vk.com/ru/method/messages.send#Коды%20ошибок',
-            error_code,
-            'Ошибка сервиса ВКонтакте',
-            error_message,
-            None
-        )
-
-
 def answer(event, vk_api, project_id):
     intent_text, is_fallback = functions.detect_intent_text(project_id, event.user_id, event.text, 'ru')
     if not is_fallback:
-        response = vk_api.messages.send(
+        vk_api.messages.send(
             user_id=event.user_id,
             message=intent_text,
             random_id=random.randint(1, 1000)
         )
-        check_vk_request_error(response)
 
 
 def main():
@@ -48,7 +32,9 @@ def main():
             try:
                 answer(event, vk_api, project_id)
             except urllib.error.HTTPError as error:
-                logger.error(f'{error} {error.url}')
+                logger.error(f'VK-бот упал с ошибкой: {error} {error.url}')
+            except Exception as error:
+                logger.error(f'VK-бот упал с ошибкой: {error}')
 
 
 if __name__ == '__main__':
