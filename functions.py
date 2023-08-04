@@ -31,17 +31,14 @@ def set_logger():
     return logger
 
 
-def detect_intent_texts(project_id, session_id, texts, language_code):
+def detect_intent_text(project_id, session_id, text, language_code):
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(project_id, session_id)
-    intent_texts = []
-    is_fallback = None
-    for text in texts:
-        text_input = dialogflow.TextInput(text=text, language_code=language_code)
-        query_input = dialogflow.QueryInput(text=text_input)
-        response = session_client.detect_intent(
-            request={"session": session, "query_input": query_input}
-        )
-        intent_texts.append(response.query_result.fulfillment_text)
-        is_fallback = response.query_result.intent.is_fallback
-    return intent_texts, is_fallback
+    text_input = dialogflow.TextInput(text=text, language_code=language_code)
+    query_input = dialogflow.QueryInput(text=text_input)
+    response = session_client.detect_intent(
+        request={"session": session, "query_input": query_input}
+    )
+    intent_text = response.query_result.fulfillment_text
+    is_fallback = response.query_result.intent.is_fallback
+    return intent_text, is_fallback
