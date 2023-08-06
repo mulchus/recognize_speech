@@ -2,31 +2,21 @@ import os
 import random
 import urllib
 import vk_api as vk
-import dialogflow_functions
+import dialogflow
 import logging
 import telegram
 
 from dotenv import load_dotenv
 from vk_api.longpoll import VkLongPoll, VkEventType
 from urllib.error import HTTPError
+from dialogflow import TelegramLogsHandler
 
 
 logger = logging.getLogger("error_logging")
 
 
-class TelegramLogsHandler(logging.Handler):
-    def __init__(self, bot, user_id):
-        super().__init__()
-        self.bot = bot
-        self.user_id = user_id
-
-    def emit(self, record):
-        log_entry = self.format(record)
-        self.bot.send_message(self.user_id, log_entry)
-
-
 def answer(event, vk_api, project_id):
-    intent_text, is_fallback = dialogflow_functions.detect_intent_text(project_id, event.user_id, event.text, 'ru')
+    intent_text, is_fallback = dialogflow.detect_intent_text(project_id, event.user_id, event.text, 'ru')
     if not is_fallback:
         vk_api.messages.send(
             user_id=event.user_id,

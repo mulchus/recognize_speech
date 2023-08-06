@@ -1,31 +1,21 @@
 import os
 import logging
-import dialogflow_functions
+import dialogflow
 import telegram
 
 from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import Updater, MessageHandler, Filters, CallbackContext
+from dialogflow import TelegramLogsHandler
 
 
 logger = logging.getLogger("error_logging")
 
 
-class TelegramLogsHandler(logging.Handler):
-    def __init__(self, bot, user_id):
-        super().__init__()
-        self.bot = bot
-        self.user_id = user_id
-
-    def emit(self, record):
-        log_entry = self.format(record)
-        self.bot.send_message(self.user_id, log_entry)
-
-
 def answer(update: Update, context: CallbackContext):
     project_id = os.getenv('GOOGLE_CLOUD_PROJECT')
     telegram_user_id = os.getenv('TELEGRAM_USER_ID')
-    intent_text, _ = dialogflow_functions.detect_intent_text(project_id, telegram_user_id, update.message.text, 'ru')
+    intent_text, _ = dialogflow.detect_intent_text(project_id, telegram_user_id, update.message.text, 'ru')
     update.message.reply_text(intent_text)
 
 

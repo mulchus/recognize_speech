@@ -1,7 +1,7 @@
 import os
 import json
 import argparse
-import dialogflow_functions
+import dialogflow
 
 from dotenv import load_dotenv
 from google.api_core.exceptions import InvalidArgument
